@@ -88,8 +88,9 @@ public class ProdutoPerecivel extends Produto{
      */
     @Override
     public String gerarDadosTexto() {
-        //TO DO
-        return "Sua string formatada";
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String precoFormatado = String.format("%2.f", precoCusto).replace(descricao, descricao);
+        return "2;" + descricao + ";" + precoCusto + ";" + margemLucro + ";" + dataDeValidade;
     }        
     
 }

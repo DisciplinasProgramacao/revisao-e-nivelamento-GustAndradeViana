@@ -59,7 +59,22 @@ public class Comercio {
      */
     static Produto[] lerProdutos(String nomeArquivoDados) {
         Produto[] vetorProdutos;
-        //TO DO
+        Scanner arqDados = null;
+        try {
+            arqDados = new Scanner(new File(nomeArquivoDados), Charset.forName("UTF"));
+            quantosProdutos = Integer.parseInt(arqDados.nextLine());
+            vetorProdutos = new Produto[quantosProdutos + MAX_NOVOS_PRODUTOS];
+
+            for (int i = 0; i < quantosProdutos; i++){
+                String linha = arqDados.nextLine();
+                vetorProdutos[i] = Produto.criarDoTexto(linha);
+            }
+        } catch (IOException fne) {
+            vetorProdutos = null;
+        } finally {
+            arqDados.close();
+        }
+
         return vetorProdutos;
     }
 
@@ -76,7 +91,18 @@ public class Comercio {
     /** Localiza um produto no vetor de cadastrados, a partir do nome, e imprime seus dados. 
      *  A busca não é sensível ao caso.  Em caso de não encontrar o produto, imprime mensagem padrão */
     static void localizarProdutos(){
-        //TO DO
+       System.out.println("Digite a descricao do produto a ser localizado: ");
+       try (Scanner teclado = new Scanner(System.in)) {
+        Produto encontrado = null;
+           String descricao = teclado.nextLine();
+           Produto descProduto = new ProdutoNaoPerecivel(descricao, 0, 0);
+           for (Produto produto : produtosCadastrados) {
+            if (produto.equals(descProduto)){
+               encontrado = produto;
+            }
+           }
+           System.out.println(encontrado.toString());
+    }
     }
 
     /**
@@ -94,7 +120,18 @@ public class Comercio {
      * @param nomeArquivo Nome do arquivo a ser gravado.
      */
     public static void salvarProdutos(String nomeArquivo){
-        //TO DO  
+        try{
+            FileWriter arquivoSaida = new FileWriter(nomeArquivo, Charset.forName("UTF-8"));
+            arquivoSaida.append(quantosProdutos + "\n");
+            for (int i = 0; i < produtosCadastrados.length; i++){
+                if (produtosCadastrados[i] != null){
+                    arquivoSaida.append(produtosCadastrados[i].gerarDadosTexto() + "/n");
+                }
+            }
+            arquivoSaida.close();
+        } catch (IOException e) {
+
+        }
     }
 
     public static void main(String[] args) throws Exception {

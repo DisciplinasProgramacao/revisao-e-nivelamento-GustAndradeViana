@@ -60,7 +60,7 @@ public class ProdutoNaoPerecivel extends Produto {
      */
     @Override
     public String gerarDadosTexto() {
-        //TO DO
-        return "Sua string formatada";
+        return "1;" + descricao + ";" + precoCusto + ";" + margemLucro;
     }        
+    
 }

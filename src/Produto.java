@@ -97,8 +97,6 @@ public abstract class Produto {
         return String.format("%s: %s", descricao, moeda.format(valorDeVenda()));
     }
 
-    
-
     /**
      * Igualdade de produtos: caso possuam o mesmo nome/descrição. 
      * @param obj Outro produto a ser comparado 
@@ -119,7 +117,21 @@ public abstract class Produto {
      */
     static Produto criarDoTexto(String linha){
         Produto novoProduto = null;
-        //TO DO
+        DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String[] dados = linha.split(";");
+        int tipo = Integer.parseInt(dados[0]);
+        String descricao = dados[1];
+        double precoCusto = Double.parseDouble(dados[2]);
+        double margemLucro = Double.parseDouble(dados[3]);
+ 
+        if (tipo == 1) {
+            novoProduto = new ProdutoNaoPerecivel(descricao, precoCusto, margemLucro);
+        }
+        if (tipo == 2) {
+            LocalDate dataValidade = LocalDate.parse(dados[4], formatoData);
+            novoProduto = new ProdutoPerecivel(descricao, precoCusto, margemLucro, dataValidade);
+        }
+
         return novoProduto;
     }
 
